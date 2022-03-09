@@ -87,7 +87,7 @@ router.post('/upload', async (req, res) => {
         }
     }
     const extension = req.body.extension;
-    const fname = (req.body.title).replace('/', '\\/') + extension;
+    const fname = (req.body.title).replace('/', '\/') + extension;
     const fpath = path.join(__dirname, `/../videos/${fname}`);
     await fs.writeFileSync(fpath, bytes, 'binary',  (err)=> {
         if (err) {
