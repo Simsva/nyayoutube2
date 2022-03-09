@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+    <script>
+        try {
+            fetch('/list-videos').then((response) => response.json()).then((data) => {
+                console.log(data);
+                data.forEach((video) => {
+                    let el = document.createElement('a');   
+                    el.innerHTML = video;
+                    el.href = `/videos/${video}`;
+                    document.querySelector('#videos').append(el);
+                });
+            });
+        } catch(err) {
+            if(err) {
+                console.log(err);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Nya Youtube</h1>
+    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
+</body>
+</html>

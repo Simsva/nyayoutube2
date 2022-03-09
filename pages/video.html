@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Open Sans', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <div style="display: flex; align: center; flex-direction: column;">   
+        <h1 id="video-title" style="margin: auto;">Nya Youtube</h1>
+        <iframe src="" id="video-frame" style="margin: auto; margin-top:2em; margin-bottom:2em;"></iframe>
+        <button onclick="window.location='/browse'" style="margin: auto; width: auto; height: auto; padding:1em; text-align: center; ">Home</button>
+    </div>
+    <script>
+        const video = window.location.href.split('videos/')[1];
+        document.querySelector('#video-frame').src = '/videos/stream/' + video;
+        document.querySelector('#video-title').innerHTML = video;
+    </script>
+</body>
+</html>
