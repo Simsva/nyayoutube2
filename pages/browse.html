@@ -14,7 +14,7 @@
     </style>
     <script>
         try {
-            fetch('/list-videos').then((response) => response.json()).then((data) => {
+            fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
                 console.log(data);
                 data.forEach((video) => {
                     let el = document.createElement('a');   
@@ -32,6 +32,6 @@
 </head>
 <body>
     <h1>Nya Youtube</h1>
-    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
+    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/nyayoutube/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
 </body>
 </html>

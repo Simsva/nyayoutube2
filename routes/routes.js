@@ -28,7 +28,7 @@ router.get('/videos/:video', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    res.redirect('/browse');
+    res.redirect('/nyayoutube/browse');
 });
 
 router.get('/browse', (req, res) => {
