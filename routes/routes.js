@@ -100,7 +100,7 @@ router.post('/upload', async (req, res) => {
         });
     } catch(err) {
         if(err) {
-            res.status(418).send("Bad request");
+            return res.status(418).send("Bad request");
         }
     }
     console.log("file uploaded");
