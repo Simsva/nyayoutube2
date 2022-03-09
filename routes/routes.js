@@ -87,16 +87,22 @@ router.post('/upload', async (req, res) => {
         }
     }
     const extension = req.body.extension;
-    const fname = (req.body.title).replace('/', '\/') + extension;
+    const fname = (req.body.title).replace('/', '').replace('<', '').replace('>', '') + extension;
     const fpath = path.join(__dirname, `/../videos/${fname}`);
-    await fs.writeFileSync(fpath, bytes, 'binary',  (err)=> {
-        if (err) {
-            console.log("There was an error writing the image")
+    try {
+        await fs.writeFileSync(fpath, bytes, 'binary',  (err)=> {
+            if (err) {
+                console.log("There was an error writing the image")
+            }
+            else {
+                console.log("Written File :" + filePath)
+            }
+        });
+    } catch(err) {
+        if(err) {
+            res.status(418).send("Bad request");
         }
-        else {
-            console.log("Written File :" + filePath)
-        }
-    });
+    }
     console.log("file uploaded");
     res.send(`Successfully uploaded video ${req.body.title}`)
 });
