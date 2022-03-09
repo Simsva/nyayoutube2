@@ -78,8 +78,9 @@ router.get('/upload', (req, res) => {
 });
 
 router.post('/upload', async (req, res) => {
+    var bytes;
     try {
-        const bytes = req.files.file.data;
+        bytes = req.files.file.data;
     } catch(err) {
         if(err) {
             return res.status(400).send("No file sent");
