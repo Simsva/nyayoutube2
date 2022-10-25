@@ -132,14 +132,14 @@ router.get('/sync', async(req, res) => {
         files_data = []
         const data_fname = path.join(__dirname, '/../data/data.json');
         let data = {videos: []};
-        files.forEach(async(file) => {
+        files.forEach((file) => {
             const data_fname = path.join(__dirname, '/../data/data.json');
             let obj = {title: file.split('.')[0], loves: 0, hates: 0, comments: []};
             data["videos"].push(obj);
         });
         await writeJsonToFile(data, data_fname);
-        res.send(files_data);
     });
+    res.send("Success");
 });
 
 router.post('/upload', async (req, res) => {
