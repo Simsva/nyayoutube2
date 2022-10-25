@@ -15,7 +15,7 @@
     <script>
         function loves(title) {
             const data = {reaction: "loves", title: title};
-            fetch('/react', {
+            fetch('/nyayoutube/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
@@ -26,7 +26,7 @@
         }
         function hates(title) {
             const data = {reaction: "hates", title: title};
-            fetch('/react', {
+            fetch('/nyayoutube/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
@@ -36,7 +36,7 @@
             window.location.reload();
         }
         try {
-            fetch('/list-videos').then((response) => response.json()).then((data) => {
+            fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
                 console.log(data);
                 data.forEach((video) => {
                     let container = document.createElement('div');
@@ -48,7 +48,7 @@
                     hate.innerText = "Hate";
                     hate.addEventListener('click', () => {hates(video["title"])});
                     el.innerHTML = `${video["title"]} <br> Loves: ${video["loves"]} <br> Hates: ${video["hates"]}`;
-                    el.href = `/videos/${video["title"]}`;
+                    el.href = `/nyayoutube/videos/${video["title"]}`;
                     container.append(el);
                     container.append(like);
                     container.append(hate);
@@ -64,6 +64,6 @@
 </head>
 <body>
     <h1>Nya Youtube</h1>
-    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
+    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/nyayoutube/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
 </body>
 </html>
