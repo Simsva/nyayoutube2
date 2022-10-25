@@ -122,6 +122,27 @@ router.post('/react', async(req, res) => {
     res.redirect(req.body.redir);
 });
 
+router.get('/sync', async(req, res) => {
+    const fpath = path.join(__dirname, '/../videos');
+    fs.readdir(fpath, async(err, files) => {
+        if(err) {
+            return console.log('Unable to scan directory: ' + err);
+            res.status(500).send();
+        } 
+        files_data = []
+        const data_fname = path.join(__dirname, '/../data/data.json');
+        let data = await readJsonFromFile(data_fname);
+        files.forEach(async(file) => {
+            const data_fname = path.join(__dirname, '/../data/data.json');
+            let data = await readJsonFromFile(data_fname);
+            let obj = {title: file.split('.')[0], loves: 0, hates: 0, comments: []};
+            data["videos"].push(obj);
+            await writeJsonToFile(data, data_fname);
+        });
+        res.send(files_data);
+    });
+});
+
 router.post('/upload', async (req, res) => {
     var bytes;
     try {
