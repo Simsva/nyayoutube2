@@ -8,18 +8,39 @@ router.use(express.json());
 
 router.use(fileUpload());
 
-router.get('/list-videos', (req, res) => {
+async function readJsonFromFile(file) {
+    return JSON.parse(fs.readFileSync(file));
+}
+
+async function writeJsonToFile(json, file) {
+    fs.writeFileSync(file, JSON.stringify(json));
+}
+
+router.get('/list-videos', async (req, res) => {
     const fpath = path.join(__dirname, '/../videos');
     console.log(fpath);
-    fs.readdir(fpath, (err, files) => {
+    fs.readdir(fpath, async(err, files) => {
         if(err) {
             return console.log('Unable to scan directory: ' + err);
             res.status(500).send();
         } 
+        files_data = []
+        const data_fname = path.join(__dirname, '/../data/data.json');
+        let data = await readJsonFromFile(data_fname);
         files.forEach((file) => {
-            files[files.indexOf(file)] = file.split('.')[0];
+            try {
+                const video = data["videos"].find(video => video.title == file.split('.')[0])
+                const loves = video["loves"];
+                const hates = video["hates"];
+                const comments = video["comments"];
+                obj = { title: file.split('.')[0], loves: loves, hates: hates, comments: comments };
+            } catch(e) {
+                console.log(e);
+                obj = { title: file.split('.')[0], loves: 0, hates: 0, comments: []};
+            }
+            files_data.push(obj);
         });
-        res.send(files);
+        res.send(files_data);
     });
 });
 
@@ -77,6 +98,30 @@ router.get('/upload', (req, res) => {
     res.sendFile(path.join(__dirname + '/../pages/upload.html'));
 });
 
+router.post('/react', async(req, res) => {
+    const data_fname = path.join(__dirname, '/../data/data.json');
+    let data = await readJsonFromFile(data_fname);
+    try {
+        let video = data["videos"].find(video => video.title == req.body.title);
+        switch(req.body.reaction) {
+            case 'loves':
+                video['loves'] = video['loves']+1;
+            break;
+            case 'hates':
+                video['hates'] = video['hates']+1;
+            break;
+            case 'comment':
+                video['comments'].push(req.body.comment);
+            break;
+        }
+        data["videos"][data["videos"].indexOf(data["videos"].find(video => video.title == req.body.title))] = video;
+    } catch(err) {
+        return res.status(418).send("Bad request");
+    }
+    await writeJsonToFile(data, data_fname);
+    res.redirect(req.body.redir);
+});
+
 router.post('/upload', async (req, res) => {
     var bytes;
     try {
@@ -86,8 +131,14 @@ router.post('/upload', async (req, res) => {
             return res.status(400).send("No file sent");
         }
     }
+    const data_fname = path.join(__dirname, '/../data/data.json');
+    let data = await readJsonFromFile(data_fname);
     const extension = req.body.extension;
-    const fname = (req.body.title).replace('/', '').replace('<', '').replace('>', '') + extension;
+    const title = (req.body.title).replace('/', '').replace('<', '').replace('>', '')
+    let obj = {title: title, loves: 0, hates: 0, comments: []};
+    data["videos"].push(obj);
+    await writeJsonToFile(data, data_fname);
+    const fname = title + extension;
     const fpath = path.join(__dirname, `/../videos/${fname}`);
     try {
         await fs.writeFileSync(fpath, bytes, 'binary',  (err)=> {
@@ -104,7 +155,7 @@ router.post('/upload', async (req, res) => {
         }
     }
     console.log("file uploaded");
-    res.send(`Successfully uploaded video ${req.body.title}`)
+    res.send(`Successfully uploaded video ${title}`)
 });
 
 

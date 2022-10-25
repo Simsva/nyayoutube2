@@ -13,14 +13,46 @@
         }
     </style>
     <script>
+        function loves(title) {
+            const data = {reaction: "loves", title: title};
+            fetch('/react', {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(data)
+                }).then(res => {
+                console.log("Request complete! response:", res);
+            });
+            window.location.reload();
+        }
+        function hates(title) {
+            const data = {reaction: "hates", title: title};
+            fetch('/react', {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'}, 
+                body: JSON.stringify(data)
+                }).then(res => {
+                console.log("Request complete! response:", res);
+            });
+            window.location.reload();
+        }
         try {
-            fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
+            fetch('/list-videos').then((response) => response.json()).then((data) => {
                 console.log(data);
                 data.forEach((video) => {
+                    let container = document.createElement('div');
                     let el = document.createElement('a');   
-                    el.innerHTML = video;
-                    el.href = `/nyayoutube/videos/${video}`;
-                    document.querySelector('#videos').append(el);
+                    let like = document.createElement('button');
+                    like.innerText = "Love";
+                    like.addEventListener('click', () => {loves(video["title"])});
+                    let hate = document.createElement('button');
+                    hate.innerText = "Hate";
+                    hate.addEventListener('click', () => {hates(video["title"])});
+                    el.innerHTML = `${video["title"]} <br> Loves: ${video["loves"]} <br> Hates: ${video["hates"]}`;
+                    el.href = `/videos/${video["title"]}`;
+                    container.append(el);
+                    container.append(like);
+                    container.append(hate);
+                    document.querySelector('#videos').append(container);
                 });
             });
         } catch(err) {
@@ -32,6 +64,6 @@
 </head>
 <body>
     <h1>Nya Youtube</h1>
-    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/nyayoutube/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
+    <div id="videos" style="display: flex; align: center; flex-direction: column; gap: 10px;"><button onclick="window.location='/upload'" style="width: auto; max-width:100px; height: auto; padding:1em; text-align: center;">Upload</button></div>
 </body>
 </html>
