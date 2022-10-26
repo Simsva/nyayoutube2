@@ -49,7 +49,7 @@ router.get('/videos/:video', (req, res) => {
 });
 
 router.get('', (req, res) => {
-    res.redirect('/browse');
+    res.redirect('/nyayoutube/browse');
 });
 
 router.get('/browse', (req, res) => {
@@ -120,7 +120,8 @@ router.post('/react', async(req, res) => {
         return res.status(418).send(err);
     }
     await writeJsonToFile(data, data_fname);
-    res.redirect(req.body.redir);
+    if(req.body.redir) return res.redirect(req.body.redir);
+    res.status(200).send("Success");
 });
 
 router.get('/sync', async(req, res) => {
