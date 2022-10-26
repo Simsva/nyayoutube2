@@ -15,25 +15,27 @@
     <script>
         function loves(title) {
             const data = {reaction: "loves", title: title};
-            fetch('/react', {
+            fetch('/nyayoutube/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
                 }).then(res => {
                 console.log("Request complete! response:", res);
-            });
-            window.location.reload();
+            }).then(() => {
+                window.location.reload();
+            })
         }
         function hates(title) {
             const data = {reaction: "hates", title: title};
-            fetch('/react', {
+            fetch('/nyayoutube/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
                 }).then(res => {
                 console.log("Request complete! response:", res);
-            });
-            window.location.reload();
+            }).then(() => {
+                window.location.reload();
+            })
         }
         try {
             fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
