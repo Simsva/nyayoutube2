@@ -31,7 +31,7 @@
     </div>
     <script>
         const video = window.location.href.split('videos/')[1];
-        document.querySelector('#title').value = video;
+        document.querySelector('#title').value = video.replace('%20', ' ');
         document.querySelector('#redir').value = '/nyayoutube/videos/' + window.location.href.split('videos/')[1];
         document.querySelector('#video-frame').src = '/nyayoutube/videos/stream/' + video;
         document.querySelector('#video-title').innerHTML = video;
