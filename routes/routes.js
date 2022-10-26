@@ -116,7 +116,7 @@ router.post('/nyayoutube/react', async(req, res) => {
         }
         data["videos"][data["videos"].indexOf(data["videos"].find(video => video.title == req.body.title))] = video;
     } catch(err) {
-        return res.status(418).send("Bad request");
+        return res.status(418).send(err);
     }
     await writeJsonToFile(data, data_fname);
     res.redirect(req.body.redir);
