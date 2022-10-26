@@ -21,7 +21,7 @@
         <div id="comments" style="margin: auto; width: 20vw; margin-top: 2em; margin-bottom: 2em; text-align: center;">
             <div><b>Comments:</b></div>
         </div>
-        <form action="/react" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; width: 20vw; margin: auto;">
+        <form action="/nyayoutube/react" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; width: 20vw; margin: auto;">
             <input type="hidden" name="title" id="title" readonly>
             <input type="hidden" name="redir" id="redir" readonly>
             <input type="hidden" name="reaction" id="reaction" value="comment" readonly>
@@ -32,11 +32,11 @@
     <script>
         const video = window.location.href.split('videos/')[1];
         document.querySelector('#title').value = video;
-        document.querySelector('#redir').value = '/videos/' + window.location.href.split('videos/')[1];
-        document.querySelector('#video-frame').src = '/videos/stream/' + video;
+        document.querySelector('#redir').value = '/nyayoutube/videos/' + window.location.href.split('videos/')[1];
+        document.querySelector('#video-frame').src = '/nyayoutube//videos/stream/' + video;
         document.querySelector('#video-title').innerHTML = video;
         try {
-            fetch('/list-videos').then((response) => response.json()).then((data) => {
+            fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
                 const video_ = data.find(vid => vid.title == video);
                 video_["comments"].forEach((comment) => {
                     let div = document.createElement('div');

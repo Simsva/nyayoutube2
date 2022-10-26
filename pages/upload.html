@@ -14,14 +14,14 @@
     </style>
 </head>
 <body>
-    <form action="/upload" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px;">
+    <form action="/nyayoutube/upload" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px;">
         <input type="file" name="file">
         <select name="extension">
             <option value=".mp4">mp4</option>
         </select>
         <input type="text" name="title" placeholder="title">
         <input type="submit" placeholder="Submit">
-        <button type="button" onclick="window.location='/nyayoutube/browse'" style="margin: auto; width: auto; height: auto; padding:1em; text-align: center;">Home</button>
+        <button type="button" onclick="window.location='/browse'" style="margin: auto; width: auto; height: auto; padding:1em; text-align: center;">Home</button>
     </form>
 </body>
 </html>

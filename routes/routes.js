@@ -16,7 +16,7 @@ async function writeJsonToFile(json, file) {
     fs.writeFileSync(file, JSON.stringify(json));
 }
 
-router.get('/nyayoutube/list-videos', async (req, res) => {
+router.get('/list-videos', async (req, res) => {
     const fpath = path.join(__dirname, '/../videos');
     console.log(fpath);
     fs.readdir(fpath, async(err, files) => {
@@ -44,23 +44,23 @@ router.get('/nyayoutube/list-videos', async (req, res) => {
     });
 });
 
-router.get('/nyayoutube/videos/:video', (req, res) => {
+router.get('/videos/:video', (req, res) => {
     res.sendFile(path.join(__dirname, '/../pages/video.html'));
 });
 
-router.get('/nyayoutube', (req, res) => {
-    res.redirect('/nyayoutube/browse');
+router.get('', (req, res) => {
+    res.redirect('/browse');
 });
 
-router.get('/nyayoutube/browse', (req, res) => {
+router.get('/browse', (req, res) => {
     console.log(req.baseUrl);
     res.sendFile(path.join(__dirname, '/../pages/browse.html'));
 });
-router.get('/nyayoutube/favicon.ico', (req, res) => {
+router.get('/favicon.ico', (req, res) => {
     res.sendFile(path.join(__dirname, '/../graphics/favicon.png'));
 });
 
-router.get('/nyayoutube/videos/stream/:video', (req, res) => {
+router.get('/videos/stream/:video', (req, res) => {
     const fpath = path.join(__dirname, `/../videos/${req.params.video}.mp4`);
     if(!fs.existsSync(fpath)) {
         res.status(404).send("Video does not exist");
@@ -95,11 +95,11 @@ router.get('/nyayoutube/videos/stream/:video', (req, res) => {
     }
 });
 
-router.get('/nyayoutube/upload', (req, res) => {
+router.get('/upload', (req, res) => {
     res.sendFile(path.join(__dirname + '/../pages/upload.html'));
 });
 
-router.post('/nyayoutube/react', async(req, res) => {
+router.post('/react', async(req, res) => {
     const data_fname = path.join(__dirname, '/../data/data.json');
     let data = await readJsonFromFile(data_fname);
     try {
@@ -123,7 +123,7 @@ router.post('/nyayoutube/react', async(req, res) => {
     res.redirect(req.body.redir);
 });
 
-router.get('/nyayoutube/sync', async(req, res) => {
+router.get('/sync', async(req, res) => {
     const fpath = path.join(__dirname, '/../videos');
     fs.readdir(fpath, async(err, files) => {
         if(err) {
@@ -143,7 +143,7 @@ router.get('/nyayoutube/sync', async(req, res) => {
     res.send("Success");
 });
 
-router.post('/nyayoutube/upload', async (req, res) => {
+router.post('/upload', async (req, res) => {
     var bytes;
     try {
         bytes = req.files.file.data;
