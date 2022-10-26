@@ -7,4 +7,4 @@ const routes = require('./routes/routes.js');
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
 
-app.use('/', routes);
+app.use('/nyayoutube', routes);
