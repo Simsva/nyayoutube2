@@ -15,7 +15,7 @@
     <script>
         function loves(title) {
             const data = {reaction: "loves", title: title};
-            fetch('/nyayoutube/react', {
+            fetch('/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
@@ -26,7 +26,7 @@
         }
         function hates(title) {
             const data = {reaction: "hates", title: title};
-            fetch('/nyayoutube/react', {
+            fetch('/react', {
                 method: "POST",
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify(data)
@@ -48,7 +48,7 @@
                     hate.innerText = "Hate";
                     hate.addEventListener('click', () => {hates(video["title"])});
                     el.innerHTML = `${video["title"]} <br> Loves: ${video["loves"]} <br> Hates: ${video["hates"]}`;
-                    el.href = `/videos/${video["title"]}`;
+                    el.href = `/nyayoutube/videos/${video["title"]}`;
                     container.append(el);
                     container.append(like);
                     container.append(hate);
