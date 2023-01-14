@@ -4,6 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta property="og:video" content="$VID_URL$">
+    <meta property="og:video:secure_url" content="$VID_URL$">
+    <meta property="og:video:type" content="$VID_TYPE$">
+    <meta property="og:type" content="video.other">
+
     <title>Video</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap" rel="stylesheet">
@@ -17,11 +23,11 @@
     <div style="display: flex; align: center; flex-direction: column;">   
         <h1 id="video-title" style="margin: auto;">Nya Youtube</h1>
         <iframe src="" id="video-frame" style="margin: auto; margin-top:2em; margin-bottom:2em;"></iframe>
-        <button onclick="window.location='/nyayoutube/browse'" style="margin: auto; width: auto; height: auto; padding:1em; text-align: center; ">Home</button>
+        <button onclick="window.location='/browse'" style="margin: auto; width: auto; height: auto; padding:1em; text-align: center; ">Home</button>
         <div id="comments" style="margin: auto; width: 20vw; margin-top: 2em; margin-bottom: 2em; text-align: center;">
             <div><b>Comments:</b></div>
         </div>
-        <form action="/nyayoutube/react" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; width: 20vw; margin: auto;">
+        <form action="/react" method="post" enctype="multipart/form-data" style="display: flex; flex-direction: column; gap: 10px; width: 20vw; margin: auto;">
             <input type="hidden" name="title" id="title" readonly>
             <input type="hidden" name="redir" id="redir" readonly>
             <input type="hidden" name="reaction" id="reaction" value="comment" readonly>
@@ -32,11 +38,11 @@
     <script>
         const video = window.location.href.split('videos/')[1];
         document.querySelector('#title').value = video.replace('%20', ' ');
-        document.querySelector('#redir').value = '/nyayoutube/videos/' + window.location.href.split('videos/')[1];
-        document.querySelector('#video-frame').src = '/nyayoutube/videos/stream/' + video;
+        document.querySelector('#redir').value = '/videos/' + window.location.href.split('videos/')[1];
+        document.querySelector('#video-frame').src = '/videos/stream/' + video;
         document.querySelector('#video-title').innerHTML = video;
         try {
-            fetch('/nyayoutube/list-videos').then((response) => response.json()).then((data) => {
+            fetch('/list-videos').then((response) => response.json()).then((data) => {
                 const video_ = data.find(vid => vid.title == video);
                 video_["comments"].forEach((comment) => {
                     let div = document.createElement('div');

@@ -9,7 +9,12 @@ router.use(express.json());
 router.use(fileUpload());
 
 async function readJsonFromFile(file) {
-    return JSON.parse(fs.readFileSync(file));
+    if(fs.existsSync(file)) {
+        return JSON.parse(fs.readFileSync(file));
+    } else {
+        fs.writeFileSync(file, "{}");
+        return {};
+    }
 }
 
 async function writeJsonToFile(json, file) {
@@ -18,7 +23,6 @@ async function writeJsonToFile(json, file) {
 
 router.get('/list-videos', async (req, res) => {
     const fpath = path.join(__dirname, '/../videos');
-    console.log(fpath);
     fs.readdir(fpath, async(err, files) => {
         if(err) {
             return console.log('Unable to scan directory: ' + err);
@@ -28,6 +32,7 @@ router.get('/list-videos', async (req, res) => {
         const data_fname = path.join(__dirname, '/../data/data.json');
         let data = await readJsonFromFile(data_fname);
         files.forEach((file) => {
+            if(file[0] === '.') return;
             try {
                 const video = data["videos"].find(video => video.title == file.split('.')[0])
                 const loves = video["loves"];
@@ -45,15 +50,31 @@ router.get('/list-videos', async (req, res) => {
 });
 
 router.get('/videos/:video', (req, res) => {
-    res.sendFile(path.join(__dirname, '/../pages/video.html'));
+    const VARS = {
+        "VID_URL": `/videos/stream/${req.params.video}`,
+        "VID_TYPE": "video/mp4",
+    };
+
+    fs.readFile(path.join(__dirname, "..", "pages", "video.html"), (err, data) => {
+        if(err) {
+            res.sendStatus(404);
+        } else {
+            let str = data.toString("utf8");
+            for(let k in VARS) {
+                const regex = new RegExp(`\\$${k}\\$`, "g");
+                str = str.replace(regex, VARS[k]);
+            }
+
+            res.send(str);
+        }
+    });
 });
 
 router.get('', (req, res) => {
-    res.redirect('/nyayoutube/browse');
+    res.redirect('/browse');
 });
 
 router.get('/browse', (req, res) => {
-    console.log(req.baseUrl);
     res.sendFile(path.join(__dirname, '/../pages/browse.html'));
 });
 router.get('/favicon.ico', (req, res) => {
