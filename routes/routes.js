@@ -53,6 +53,7 @@ router.get('/videos/:video', (req, res) => {
     const VARS = {
         "VID_URL": `/videos/stream/${req.params.video}`,
         "VID_TYPE": "video/mp4",
+        "VID_NAME": req.params.video,
     };
 
     fs.readFile(path.join(__dirname, "..", "pages", "video.html"), (err, data) => {
